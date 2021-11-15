@@ -43,7 +43,8 @@ $product = $block->getProduct();
             "bundleOption": ".bundle-option-select",
             "optionsFieldset": "#options-<?php /* @escapeNotVerified */ echo (int)$product->getSelectionId() ?>",
             "selectionId": "<?php echo $product->getSelectionId(); ?>",
-            "optionId": "<?php echo $option->getId();?>"
+            "optionId": "<?php echo $option->getId();?>",
+            "mainSelector": "#bundle-option-<?php echo $option->getId(); ?>"
         }
     }
 }

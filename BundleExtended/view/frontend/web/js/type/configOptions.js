@@ -12,34 +12,38 @@ define([
             selectionId: 0,
             optionId: 0,
             superAttributeSelectors: null,
-            products: {}
+            products: {},
+            mainSelector: null
         },
 
         _create: function(){
             var self = this;
-            $(".bundle-option-select").on("change", self.updateSuperAttribute.bind(self));
+            $(self.options.mainSelector).on("change", self.updateSuperAttribute.bind(self));
             $(self.options.superAttributeSelector).on("change", self.optionChanged.bind(self));
         },
 
         updateSuperAttribute: function(event){
+
             var self = this;
             const selectionId = event.target.value
 
-            const superAttributeSelectors = $('#options-'+selectionId).find("select");
-            $(".bundle-configurable").addClass("no-display");
-            $('#options-'+selectionId).removeClass("no-display");
-            const attributeIds = [];
+            if( self.options.selectionId == selectionId ) {
+                const superAttributeSelectors = $('#options-'+selectionId).find("select");
+                $(".bundle-configurable").addClass("no-display");
+                $('#options-'+selectionId).removeClass("no-display");
+                const attributeIds = [];
 
 
 
-            _.each(superAttributeSelectors, function(superAttributeSelector, index){
-                const attributeId = $(superAttributeSelector).attr("data-attribute-id");
-                if(attributeId > 0) {
-                    attributeIds.push(attributeId);
-                }
-            });
+                _.each(superAttributeSelectors, function(superAttributeSelector, index){
+                    const attributeId = $(superAttributeSelector).attr("data-attribute-id");
+                    if(attributeId > 0) {
+                        attributeIds.push(attributeId);
+                    }
+                });
 
-            self.populateSelector(attributeIds, selectionId)
+                self.populateSelector(attributeIds, selectionId)
+            }
         },
 
         optionChanged: function(event){
@@ -64,7 +68,7 @@ define([
             let product = 0;
             _.each(productsObject, function(productObject, productId) {
                 if(
-                    JSON.stringify(_.toArray(productObject).sort()) === 
+                    JSON.stringify(_.toArray(productObject).sort()) ===
                     JSON.stringify(optionValues.sort())
                 ) {
                     product = productId;
@@ -86,8 +90,7 @@ define([
             _.each(attributeIds, function(attributeId, key){
                 const attributeData = self.extractAttributes(attributeId);
                 if(attributeData.id == attributeId) {
-                    console.log(attributeData);
-                    
+
                     const selector = document.getElementById("attribute"+attributeData.id+"-"+selectionId)
                     selector.innerHTML = "";
                     let i = 0;
