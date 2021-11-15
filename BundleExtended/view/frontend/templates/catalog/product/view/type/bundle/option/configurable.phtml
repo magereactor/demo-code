@@ -12,7 +12,7 @@ $product = $block->getProduct();
 <div class="bundle-configurable fieldset<?php if (!$product->getIsDefault()) : ?> no-display<?php endif;?>"
      id="options-<?php echo (int)$product->getSelectionId()?>">
 
-    <input type="text" name="selection_configurable_option[<?= (int)$product->getSelectionId() ?>]" value="" />
+    <input type="hidden" name="selection_configurable_option[<?= (int)$product->getSelectionId() ?>]" value="" />
 
     <?php foreach ($attributes as $attribute): ?>
         <div class="field configurable required">
